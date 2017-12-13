@@ -87,15 +87,24 @@ public class TodolistsFacadeREST extends AbstractFacade<Todolists> {
     @Path("getToDoListsByUserid/{userid}")
     @Produces({"application/xml", "application/json"})
     public List<Todolists> getToDoListsByUsername(@PathParam("userid") String userid) {
-        Query q = em.createQuery("SELECT t FROM Todolists t JOIN Listassignments la ON t.id = la.todolistid JOIN Users u ON la.userid = u.id WHERE u.id = " + userid);
+        Query q = em.createQuery("SELECT DISTINCT t FROM Todolists t JOIN Listassignments la ON t.id = la.todolistid JOIN Users u ON la.userid = u.id WHERE la.userid = " + userid);
+        System.out.println(q.toString());
         return q.getResultList();
     }
+    
+    /**
+     * SELECT t.* FROM
+    itkstu.USERS u JOIN itkstu.LISTASSIGNMENTS la ON u.ID = la.USERID
+    JOIN itkstu.TODOLISTS t ON la.TODOLISTID = t.id
+    WHERE u.id = 1;
+
+     */
 
     @GET
     @Path("getInactiveToDoListsByUserid/{userid}")
     @Produces({"application/xml", "application/json"})
     public List<Todolists> getInactiveToDoListsByUsername(@PathParam("userid") String userid) {
-        Query q = em.createQuery("SELECT DISTINCT t FROM Todolists t JOIN Listassignments la ON t.id = la.todolistid JOIN Users u ON la.userid = u.id WHERE t.active = false AND u.id = " + userid);
+        Query q = em.createQuery("SELECT DISTINCT t FROM Todolists t JOIN Listassignments la ON t.id = la.todolistid JOIN Users u ON la.userid = u.id WHERE t.active = false AND la.userid = " + userid);
         return q.getResultList();
     }
     
