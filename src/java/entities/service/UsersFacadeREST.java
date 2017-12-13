@@ -84,11 +84,11 @@ public class UsersFacadeREST extends AbstractFacade<Users> {
     }
 
     @GET
-    @Path("getUserByUsername/{username}")
+    @Path("getUserByEmail/{email}")
     @Produces({"application/xml", "application/json"})
-    public List<Users> getUserByUsername(@PathParam("username") String username) {
-        Query q = em.createQuery("SELECT u FROM Users u WHERE lower(u.username) = lower(:username)");
-        q.setParameter("username", username);
+    public List<Users> getUserByEmail(@PathParam("email") String email) {
+        Query q = em.createQuery("SELECT u FROM Users u WHERE lower(u.email) = lower(:email)");
+        q.setParameter("email", email);
         return q.getResultList();
     }
 

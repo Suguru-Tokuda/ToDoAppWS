@@ -29,10 +29,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Users.findAll", query = "SELECT u FROM Users u"),
     @NamedQuery(name = "Users.findById", query = "SELECT u FROM Users u WHERE u.id = :id"),
-    @NamedQuery(name = "Users.findByUsername", query = "SELECT u FROM Users u WHERE u.username = :username"),
     @NamedQuery(name = "Users.findByEmail", query = "SELECT u FROM Users u WHERE u.email = :email"),
     @NamedQuery(name = "Users.findByPassword", query = "SELECT u FROM Users u WHERE u.password = :password"),
-    @NamedQuery(name = "Users.findByConfirmed", query = "SELECT u FROM Users u WHERE u.confirmed = :confirmed")})
+    @NamedQuery(name = "Users.findByConfirmed", query = "SELECT u FROM Users u WHERE u.confirmed = :confirmed"),
+    @NamedQuery(name = "Users.findByFirstname", query = "SELECT u FROM Users u WHERE u.firstname = :firstname"),
+    @NamedQuery(name = "Users.findByLastname", query = "SELECT u FROM Users u WHERE u.lastname = :lastname")})
 public class Users implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -40,11 +41,6 @@ public class Users implements Serializable {
     @Basic(optional = false)
     @Column(name = "ID")
     private Integer id;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 255)
-    @Column(name = "USERNAME")
-    private String username;
     // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
     @Basic(optional = false)
     @NotNull
@@ -58,6 +54,12 @@ public class Users implements Serializable {
     private String password;
     @Column(name = "CONFIRMED")
     private Boolean confirmed;
+    @Size(max = 255)
+    @Column(name = "FIRSTNAME")
+    private String firstname;
+    @Size(max = 255)
+    @Column(name = "LASTNAME")
+    private String lastname;
 
     public Users() {
     }
@@ -66,9 +68,8 @@ public class Users implements Serializable {
         this.id = id;
     }
 
-    public Users(Integer id, String username, String email, String password) {
+    public Users(Integer id, String email, String password) {
         this.id = id;
-        this.username = username;
         this.email = email;
         this.password = password;
     }
@@ -79,14 +80,6 @@ public class Users implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     public String getEmail() {
@@ -111,6 +104,22 @@ public class Users implements Serializable {
 
     public void setConfirmed(Boolean confirmed) {
         this.confirmed = confirmed;
+    }
+
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
     }
 
     @Override
