@@ -98,6 +98,14 @@ public class TodolistsFacadeREST extends AbstractFacade<Todolists> {
         Query q = em.createQuery("SELECT DISTINCT t FROM Todolists t JOIN Listassignments la ON t.id = la.todolistid JOIN Users u ON la.userid = u.id WHERE t.active = false AND u.id = " + userid);
         return q.getResultList();
     }
+    
+    @GET
+    @Path("getToDoListsOrderByIdDesc")
+    @Produces({"application/xml", "application/json"})
+    public List<Todolists> getToDoListsOrderByIdDec() {
+        Query q = em.createQuery("SELECT t FROM Todolists t ORDER BY t.id DESC");
+        return q.getResultList();
+    }
 
     @Override
     protected EntityManager getEntityManager() {
