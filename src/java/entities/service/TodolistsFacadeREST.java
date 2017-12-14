@@ -86,7 +86,7 @@ public class TodolistsFacadeREST extends AbstractFacade<Todolists> {
     @GET
     @Path("getToDoListsByUserid/{userid}")
     @Produces({"application/xml", "application/json"})
-    public List<Todolists> getToDoListsByUsername(@PathParam("userid") String userid) {
+    public List<Todolists> getToDoListsByUserid(@PathParam("userid") String userid) {
         Query q = em.createQuery("SELECT DISTINCT t FROM Todolists t JOIN Listassignments la ON t.id = la.todolistid JOIN Users u ON la.userid = u.id WHERE la.userid = " + userid);
         System.out.println(q.toString());
         return q.getResultList();
@@ -99,11 +99,19 @@ public class TodolistsFacadeREST extends AbstractFacade<Todolists> {
     WHERE u.id = 1;
 
      */
+    
+    @GET
+    @Path("getActiveToDoListsByUserid/{userid}")
+    @Produces({"application/xml", "application/json"})
+    public List<Todolists> getActiveToDoListsByUserid(@PathParam("userid") String userid) {
+        Query q = em.createQuery("SELECT DISTINCT t FROM Todolists t JOIN Listassignments la ON t.id = la.todolistid JOIN Users u ON la.userid = u.id WHERE t.active = true AND la.userid = " + userid);
+        return q.getResultList();
+    }
 
     @GET
     @Path("getInactiveToDoListsByUserid/{userid}")
     @Produces({"application/xml", "application/json"})
-    public List<Todolists> getInactiveToDoListsByUsername(@PathParam("userid") String userid) {
+    public List<Todolists> getInactiveToDoListsByUserid(@PathParam("userid") String userid) {
         Query q = em.createQuery("SELECT DISTINCT t FROM Todolists t JOIN Listassignments la ON t.id = la.todolistid JOIN Users u ON la.userid = u.id WHERE t.active = false AND la.userid = " + userid);
         return q.getResultList();
     }
