@@ -91,6 +91,14 @@ public class UsersFacadeREST extends AbstractFacade<Users> {
         q.setParameter("email", email);
         return q.getResultList();
     }
+    
+    @GET
+    @Path("getUserById/{userid}")
+    @Produces({"application/xml", "application/json"})
+    public List<Users> getUserById(@PathParam("userid") String userid) {
+        Query q = em.createQuery("SELECT u FROM Users u WHERE u.id = " + userid);
+        return q.getResultList();
+    }
 
     @Override
     protected EntityManager getEntityManager() {

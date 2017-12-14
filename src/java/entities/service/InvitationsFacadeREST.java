@@ -83,10 +83,10 @@ public class InvitationsFacadeREST extends AbstractFacade<Invitations> {
     }
     
     @GET
-    @Path("getInvitationsByReceiverid/{receiverId}")
+    @Path("getInvitationsByReceiveridAndToDoListId/{receiverId}/{todolistid}")
     @Produces({"application/xml", "application/json"})
-    public List<Invitations> getInvitationsByReceiverId(@PathParam("receiverId") String receiverId) {
-        Query q = em.createQuery("SELECT DISTINCT i FROM Invitations i JOIN Users u ON i.receiverid = u.id WHERE i.receiverid = " + receiverId);
+    public List<Invitations> getInvitationsByReceiverId(@PathParam("receiverId") String receiverId, @PathParam("todolistid") String todolistid) {
+        Query q = em.createQuery("SELECT DISTINCT i FROM Invitations i JOIN Users u ON i.receiverid = u.id WHERE i.receiverid = " + receiverId + " AND  i.todolistid = " + todolistid);
         return q.getResultList();
     }
 

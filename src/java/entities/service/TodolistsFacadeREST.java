@@ -123,6 +123,14 @@ public class TodolistsFacadeREST extends AbstractFacade<Todolists> {
         Query q = em.createQuery("SELECT t FROM Todolists t ORDER BY t.id DESC");
         return q.getResultList();
     }
+    
+    @GET
+    @Path("getToDoListById/{todolistid}")
+    @Produces({"application/xml", "application/json"})
+    public List<Todolists> getToDoListById(@PathParam("todolistid") String todolistid) {
+        Query q = em.createQuery("SELECT t FROM Todolists t  WHERE t.id = " + todolistid);
+        return q.getResultList();
+    }
 
     @Override
     protected EntityManager getEntityManager() {
